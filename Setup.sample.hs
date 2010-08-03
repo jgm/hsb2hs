@@ -1,6 +1,7 @@
 import Distribution.Simple
 import Distribution.Simple.PreProcess
 import Distribution.Simple.Utils (info)
+import System.Directory
 import System.Process
 import System.Exit
 
@@ -15,6 +16,10 @@ ppBlobSuffixHandler = ("hsb", \_ _ ->
     platformIndependent = True,
     runPreProcessor = mkSimplePreProcessor $ \infile outfile verbosity ->
       do info verbosity $ "Preprocessing " ++ infile ++ " to " ++ outfile
-         rawSystem "hsb2hs" [infile, outfile]
+         hsb2hsPath <- findExecutable "hsb2hs"
+         case hsb2hsPath of
+            Just p  -> rawSystem p [infile, outfile]
+            Nothing -> error "hsb2hs is needed to build this program."
          return ()
+
   })

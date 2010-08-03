@@ -1,0 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+module Data (foo, myblobs)
+where
+import Data.ByteString.Char8
+import Data.Map as M
+
+foo :: ByteString
+foo = %blob "data/foo"
+
+myblobs :: M.Map FilePath ByteString
+myblobs = %blobs "data"
+

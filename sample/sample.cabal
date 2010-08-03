@@ -1,0 +1,15 @@
+Name:                hsb2hs-sample
+Version:             0.1
+Synopsis:            Sample illustrating use of hsb2hs.
+License:             BSD3
+Author:              John MacFarlane
+Maintainer:          jgm@berkeley.edu
+Copyright:           Copyright 2010 John MacFarlane
+Category:            Data
+Build-type:          Custom
+Cabal-version:       >=1.2
+Extra-source-files:  data/foo, data/bar
+Executable           hsb2hs-sample
+  Other-modules:       Data
+  Build-depends:       base >= 4, bytestring, containers
+  Main-is:             sample.hs

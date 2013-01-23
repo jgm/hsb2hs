@@ -9,7 +9,6 @@ import Data.Char (isSpace)
 import Control.Arrow ((&&&), second)
 import Control.Applicative ((<$>))
 import Control.Monad
-import qualified Data.Map as M
 import System.FilePath
 import Paths_hsb2hs (getDataFileName)
 
@@ -45,7 +44,7 @@ addBlobs :: FilePath -> String -> IO String
 addBlobs infile w@('%':'b':'l':'o':'b':'s':xs) =
   case reads (dropWhile isSpace xs) of
        ((p,r):_) -> fileList' p "" >>= \x -> addBlobs infile r >>=
-                       return . (show (M.fromList x) ++)
+                       return . (show x ++)
        _         -> error $ "Syntax error in " ++ infile ++ ": " ++
                                 takeWhile (/='\n') w
 addBlobs infile w@('%':'b':'l':'o':'b':xs) =

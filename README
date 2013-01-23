@@ -15,10 +15,10 @@ where data/foo.txt is a text file containing the string
 can be interpreted either as a String or, with OverloadedStrings,
 as a ByteString.)
 
-If you have a whole directory of data files, you can get a
-map instead:
+If you have a whole directory of data files, you can get an
+association list instead:
 
-    bar :: M.Map FilePath ByteString
+    bar :: [(FilePath, ByteString)]
     bar = %blob "images"
 
 hsb2hs is set up to use as a preprocessor in the Haskell build

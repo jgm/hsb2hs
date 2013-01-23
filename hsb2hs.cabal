@@ -1,18 +1,24 @@
 Name:                hsb2hs
 Version:             0.1
 Synopsis:            Preprocesses a file, adding binary blobs.
+Description:         hsb2hs is a preprocessor that allows inserts
+                     blobs from files into source files as string
+                     literals.  It is an alternative to using
+                     file-embed that does not require Template Haskell.
 License:             BSD3
 License-file:        LICENSE
 Author:              John MacFarlane
 Maintainer:          jgm@berkeley.edu
-Copyright:           Copyright (C) 2010 John MacFarlane
+Copyright:           Copyright (C) 2013 John MacFarlane
 Category:            Development
-Cabal-version:       >=1.2
+Cabal-version:       >=1.6
 Build-type:          Simple
-Data-files:          Setup.sample.hs
+Source-repository head
+  type:              git
+  location:          git://github.com/jgm/hsb2hs.git
 Executable hsb2hs
     Main-is: hsb2hs.hs
     Ghc-Options: -Wall
-    Build-depends: base >= 4, containers, bytestring, directory,
+    Build-depends: base >= 4 && < 5, containers, bytestring, directory,
                      filepath, preprocessor-tools > 0.1 && < 0.2
 

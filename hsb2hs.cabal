@@ -1,10 +1,6 @@
 Name:                hsb2hs
 Version:             0.1
 Synopsis:            Preprocesses a file, adding binary blobs.
-Description:         hsb2hs is a preprocessor that inserts
-                     blobs from files into source files as string
-                     literals.  It is a Template Haskell-free alternative
-                     to file-embed.
 Description:
     hsb2hs is a preprocessor that allows you to include binary blobs as
     literals in your Haskell programs and libraries.  It is an alternative

@@ -22,5 +22,4 @@ Executable hsb2hs
     Main-is: hsb2hs.hs
     Ghc-Options: -Wall
     Build-depends: base >= 4 && < 5, containers, bytestring, directory,
-                     filepath, preprocessor-tools > 0.1 && < 0.2
-
+                   filepath, preprocessor-tools > 0.1 && < 0.2

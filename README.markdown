@@ -27,6 +27,34 @@ association list instead:
 hsb2hs is set up to use as a preprocessor in the Haskell build
 procedure. Put your blob instructions in .hsb files, and Cabal will
 automatically convert these to .hs files during the build.
-To use hsb2hs with Cabal, set Build-type to `Custom' and use the
-output of `hsb2hs -s' for your Setup.hs.
+To use hsb2hs with Cabal, set Build-type to `Custom' and use something
+like the following for your `Setup.hs`:
+
+``` haskell
+import Distribution.Simple
+import Distribution.Simple.PreProcess
+import Distribution.Simple.Utils (info)
+import System.Directory
+import System.Process
+import System.Exit
+
+main :: IO ()
+main = defaultMainWithHooks simpleUserHooks{
+         hookedPreProcessors = [ppBlobSuffixHandler]
+       }
+
+ppBlobSuffixHandler :: PPSuffixHandler
+ppBlobSuffixHandler = ("hsb", \_ _ ->
+  PreProcessor {
+    platformIndependent = True,
+    runPreProcessor = mkSimplePreProcessor $ \infile outfile verbosity ->
+      do info verbosity $ "Preprocessing " ++ infile ++ " to " ++ outfile
+         hsb2hsPath <- findExecutable "hsb2hs"
+         case hsb2hsPath of
+            Just p  -> rawSystem p [infile, infile, outfile]
+            Nothing -> error "hsb2hs is needed to build this program."
+         return ()
+
+  })
+```
 

@@ -1,3 +1,6 @@
+hsb2hs
+======
+
 hsb2hs is a preprocessor that allows you to include binary blobs as
 literals in your Haskell programs and libraries.  Running hsb2hs on
 a file containing

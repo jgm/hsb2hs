@@ -33,7 +33,7 @@ processBlobs (Single (Token Operator _ l "%") :
          stripLeadingQuote ('"':ys) = ys
          stripLeadingQuote ys = ys
          getLiteral f = unsafePerformIO $ if kw == "blob"
-                                             then show `fmap` readFile f
+                                             then show `fmap` B.readFile f
                                              else show `fmap` fileList' f ""
 processBlobs (x:xs) =
   (case x of

@@ -9,8 +9,8 @@ import Data.Char (isSpace)
 import Control.Arrow ((&&&), second)
 import Control.Applicative ((<$>))
 import Control.Monad
-import Data.Monoid (mappend)
 import qualified Data.Map as M
+import System.FilePath
 import Paths_hsb2hs (getDataFileName)
 
 main :: IO ()
@@ -59,10 +59,8 @@ addBlobs _ [] = return []
 -- fileList' is taken from Michael Snoyman's file-embed
 fileList' :: FilePath -> FilePath -> IO [(FilePath, B.ByteString)]
 fileList' realTop top = do
-    let prefix1 = top ++ "/"
-        prefix2 = realTop ++ prefix1
-    allContents <- filter notHidden <$> getDirectoryContents prefix2
-    let all' = map (mappend prefix1 &&& mappend prefix2) allContents
+    allContents <- filter notHidden <$> getDirectoryContents (realTop </> top)
+    let all' = map ((top </>) &&& (\x -> realTop </> top </> x)) allContents
     files <- filterM (doesFileExist . snd) all' >>=
              mapM (liftPair2 . second B.readFile)
     dirs <- filterM (doesDirectoryExist . snd) all' >>=

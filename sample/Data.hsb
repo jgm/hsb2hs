@@ -2,11 +2,11 @@
 module Data (foo, myblobs)
 where
 import Data.ByteString.Char8
-import Data.Map as M
 
 foo :: ByteString
 foo = %blob "data/foo"
 
-myblobs :: M.Map FilePath ByteString
+-- '%blobs "data"' should not be expanded here in this comment!
+myblobs :: [(FilePath, ByteString)]
 myblobs = %blobs "data"
 

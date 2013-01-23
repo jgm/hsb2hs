@@ -18,7 +18,7 @@ ppBlobSuffixHandler = ("hsb", \_ _ ->
       do info verbosity $ "Preprocessing " ++ infile ++ " to " ++ outfile
          hsb2hsPath <- findExecutable "hsb2hs"
          case hsb2hsPath of
-            Just p  -> rawSystem p [infile, outfile]
+            Just p  -> rawSystem p [infile, infile, outfile]
             Nothing -> error "hsb2hs is needed to build this program."
          return ()
 

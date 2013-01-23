@@ -13,6 +13,6 @@ Data-files:          Setup.sample.hs
 Executable hsb2hs
     Main-is: hsb2hs.hs
     Ghc-Options: -Wall
-    Build-depends: base >= 4, containers, bytestring, directory, Cabal >= 1.8,
-                     filepath
+    Build-depends: base >= 4, containers, bytestring, directory,
+                     filepath, preprocessor-tools > 0.1 && < 0.2
 

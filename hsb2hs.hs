@@ -1,7 +1,6 @@
 module Main
 where
 import Language.Haskell.Preprocessor
-import System.IO.Unsafe (unsafePerformIO)
 
 import qualified Data.ByteString as B
 import System.Directory
@@ -21,25 +20,32 @@ blobExtension = base{
     transformer = processBlobs
 }
 
-processBlobs :: [Ast] -> [Ast]
-processBlobs [] = []
+processBlobs :: [Ast] -> IO [Ast]
+
+processBlobs [] = return []
+
 processBlobs (Single (Token Operator _ l "%") :
               Single (Token Variable _ _ kw) :
               Single (Token StringLit _ _ lit) :
-              xs) | kw == "blobs" || kw == "blob" =
-  (Single (Token StringLit [] l (getLiteral $ stripQuotes lit))) :
-     processBlobs xs
-   where stripQuotes = reverse . stripLeadingQuote . reverse . stripLeadingQuote
-         stripLeadingQuote ('"':ys) = ys
-         stripLeadingQuote ys = ys
-         getLiteral f = unsafePerformIO $ if kw == "blob"
-                                             then show `fmap` B.readFile f
-                                             else show `fmap` fileList' f ""
-processBlobs (x:xs) =
-  (case x of
-      Single tok -> Single tok
-      Block i l b r n -> Block i l (processBlobs b) r n
-      Empty      -> Empty) : processBlobs xs
+              xs) | kw == "blobs" || kw == "blob" = do
+  let f = stripQuotes lit
+  t <- if kw == "blob"
+          then show `fmap` B.readFile f
+          else show `fmap` fileList' f ""
+  rest <- processBlobs xs
+  return $ (Single (Token StringLit [] l t)) : rest
+ where stripQuotes = reverse . stripLeadingQuote . reverse . stripLeadingQuote
+       stripLeadingQuote ('"':ys) = ys
+       stripLeadingQuote ys = ys
+
+processBlobs (Block i l b r n : xs) = do
+  bs <- processBlobs b
+  rest <- processBlobs xs
+  return $ Block i l bs r n : rest
+
+processBlobs (x : xs) = do
+  rest <- processBlobs xs
+  return $ x : rest
 
 -- fileList' is taken from Michael Snoyman's file-embed
 fileList' :: FilePath -> FilePath -> IO [(FilePath, B.ByteString)]

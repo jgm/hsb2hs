@@ -1,5 +1,5 @@
 Name:         hsb2hs
-Version:      0.1
+Version:      0.2
 Synopsis:     Preprocesses a file, adding blobs from files as string literals.
 Description:
     hsb2hs is a preprocessor that allows you to include the contents of
@@ -22,4 +22,4 @@ Executable hsb2hs
     Main-is: hsb2hs.hs
     Ghc-Options: -Wall
     Build-depends: base >= 4 && < 5, containers, bytestring, directory,
-                   filepath, preprocessor-tools > 0.1 && < 0.2
+                   filepath, preprocessor-tools > 1.0

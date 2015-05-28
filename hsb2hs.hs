@@ -50,7 +50,7 @@ processBlobs (x : xs) = do
 -- fileList' is taken from Michael Snoyman's file-embed
 fileList' :: FilePath -> FilePath -> IO [(FilePath, B.ByteString)]
 fileList' realTop top = do
-    allContents <- filter notHidden <$> getDirectoryContents (realTop </> top)
+    allContents <- filter isReal <$> getDirectoryContents (realTop </> top)
     let all' = map ((top </>) &&& (\x -> realTop </> top </> x)) allContents
     files <- filterM (doesFileExist . snd) all' >>=
              mapM (liftPair2 . second B.readFile)
@@ -58,9 +58,10 @@ fileList' realTop top = do
             mapM (fileList' realTop . fst)
     return $ concat $ files : dirs
 
-notHidden :: FilePath -> Bool
-notHidden ('.':_) = False
-notHidden _ = True
+isReal :: FilePath -> Bool
+isReal "."  = False
+isReal ".." = False
+isReal _    = True
 
 liftPair2 :: Monad m => (a, m b) -> m (a, b)
 liftPair2 (a, b) = b >>= \b' -> return (a, b')

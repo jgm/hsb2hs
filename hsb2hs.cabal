@@ -1,5 +1,5 @@
 Name:         hsb2hs
-Version:      0.3
+Version:      0.3.1
 Synopsis:     Preprocesses a file, adding blobs from files as string literals.
 Description:
     hsb2hs is a preprocessor that allows you to include the contents of

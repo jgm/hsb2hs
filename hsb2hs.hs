@@ -9,11 +9,15 @@ import Control.Arrow ((&&&), second)
 import Control.Applicative ((<$>))
 import Control.Monad
 import System.FilePath
+import Data.Version (showVersion)
+import Paths_hsb2hs (version)
 
 main :: IO ()
 main = do
   args <- getArgs
-  transform blobExtension args
+  if "--version" `elem` args
+     then putStrLn (showVersion version)
+     else transform blobExtension args
 
 blobExtension :: Extension
 blobExtension = base{

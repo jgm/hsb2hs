@@ -20,6 +20,7 @@ Source-repository head
   location:          git://github.com/jgm/hsb2hs.git
 Executable hsb2hs
     Main-is: hsb2hs.hs
+    Other-Modules: Paths_hsb2hs
     Ghc-Options: -Wall
     Build-depends: base >= 4 && < 5, containers, bytestring, directory,
                    filepath, preprocessor-tools > 1.0
